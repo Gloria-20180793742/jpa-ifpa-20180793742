@@ -8,102 +8,101 @@
 	<title>Testes JPA+JSF</title>
 </h:head>
 <h:body class="ui-fluid">
+ 
+    <h1><p:outputLabel id="titulo" value="Cadastro de Pedidos"/> </h1>
 
-	<h1>
-		<p:outputLabel id="titulo" value="Cadastro de Pedidos" />
-	</h1>
+	<h:form id="formulario">	  
+    	<p:panel id="panel" header="Novo pedido de #{clienteMB.cliente.nome}  -  #{clienteMB.cliente.id}  -  #{clienteMB.cliente.endereco}">
+	        <p:focus context="panel"/>
 
-	<h:form id="formulario">
-		<p:growl id="growpanel" showDetail="true"
-			header="Pedidos do Cliente: #{cli.id}" />
-		<!-- 			<h:outputLabel value="#{cli.nome}" value="#{cli.endereco}" value="#{cli.id}"/> -->
-		<p:focus context="panel" />
-
-		<p:commandButton id="btNovoPedido" value="Novo Pedido"
-			style="margin-top:10px;margin-bottom:10px; width:200px;display:block"
-			update="formulario" ajax="true" action="#{pedidoMB.novoPedido}" />
-
-		<p:panelGrid id="dados" columns="2"
-			columnClasses="ui-g-12 ui-md-2,ui-g-12 ui-md-4" layout="grid"
-			styleClass="ui-panelgrid-blank ui-fluid">
-			<p:outputLabel for="input-nomeProduto" value="Nome Produto:" />
-			<p:inputText id="input-nomeProduto" label="Nome Produto"
-				value="#{pedidoMB.pedido.nomeProduto}" required="true"
-				maxlength="60" size="60"
-				requiredMessage="Nome Produto: Campo obrigatório!" />
-
-			<p:outputLabel for="input-preco" value="Preço: " />
-			<p:inputText id="input-preco" label="Preço"
-				value="#{pedidoMB.pedido.preco}" required="true" maxlength="60"
-				size="60" requiredMessage="Preço: Campo obrigatório!" />
-
-			<p:outputLabel for="input-quantidade" value="Quantidade:" />
-			<p:inputText id="input-quantidade" label="Quantidade"
-				value="#{pedidoMB.pedido.quantidade}" required="true" maxlength="60"
-				size="60" requiredMessage="Quantidade: Campo obrigatório!" />
-
-		</p:panelGrid>
+			<p:commandButton id="btnovo" value="Novo Pedido" 
+			     style="margin-top:10px;margin-bottom:10px; width:200px;display:block"
+			     update="formulario" ajax="true" 
+			     action="#{pedidoMB.novoPedido}" />
+					
+			<p:panelGrid id="dados" columns="2" 
+			     columnClasses="ui-g-12 ui-md-2,ui-g-12 ui-md-4"
+			     layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+			    <p:outputLabel for="input-nome" value="Nome do Produto:" />
+				<p:inputText id="input-nome" label="Nome" value="#{pedidoMB.pedido.nomeProduto}"
+			        	required="true" maxlength="60" size="60"
+			        	requiredMessage="Nome do Produto: Campo obrigatÃ³rio!" />
+			    
+			    <p:outputLabel for="input-qtd" value="Quantidade:" />
+				<p:inputText id="input-qtd" label="Quantidade" value="#{pedidoMB.pedido.quantidade}"
+			       	size="60"	maxlength="100" required="true" 
+			       	requiredMessage="Quantidade: Campo obrigatÃ³rio!"/>
+			       	
+			    <p:outputLabel for="input-val" value="Valor Total:" />
+				<p:inputText id="input-val" label="Valor" value="#{pedidoMB.pedido.valorTotal}"
+			       	size="60"	maxlength="100" required="true" 
+			       	requiredMessage="Valor Total: Campo obrigatÃ³rio!"/>
+			       	
+			</p:panelGrid>
 
 
 		<p:commandButton id="salvar" value="Salvar"
-			style="width:200px;display:block" update="listagem-ped formulario"
-			ajax="true" actionListener="#{clienteMB.salvar}" />
-
-		<p:growl id="msgs" showDetail="true" skipDetailIfEqualsSummary="true" />
-
+			     style="width:200px;display:block"
+			     update="listagem-cli formulario" ajax="true"
+				actionListener="#{pedidoMB.salvar}" 
+				/>
+				
+			<p:messages />
+			
+			<p:growl id="msgs" showDetail="true" skipDetailIfEqualsSummary="true" />
+			
 		</p:panel>
-
+			  
 	</h:form>
-
-	<h2>
-		<p:outputLabel id="titulo-lista" value="Lista de Pedidos" />
-	</h2>
-
-	<h:form id="listagem-ped">
-		<p:dataTable id="pedidosList" var="ped" value="#{pedidoMB.pedidos}"
-			rows="6" paginator="true" tableStyle="table-layout: auto;"
-			reflow="true">
-			<p:column headerText="Id">
-				<h:outputText value="#{ped.id}" />
-			</p:column>
-
-			<p:column headerText="Nome Produto">
-				<h:outputText value="#{ped.nomeProduto}" />
-			</p:column>
-
-			<p:column headerText="Qtd.">
-				<h:outputText value="#{ped.quantidade}" />
-			</p:column>
-<!-- verificar tag vltot-->
-			<p:column headerText="V.Total">
-				<h:outputText value="#{ped.valorTotal}" />
-			</p:column>
-
-			<p:column headerText="Operações">
-				<p:commandButton update="pedidosList formulario" value="Alterar"
-					icon="ui-icon-closethick"
-					actionListener="#{pedidoMB.update(ped.id)}" ajax="true"
-					styleClass="ui-priority-primary">
-				</p:commandButton>
-
-				<p:commandButton update="pedidosList formulario" value="Excluir"
-					icon="ui-icon-closethick"
-					actionListener="#{pedidoMB.delete(ped.id)}" ajax="true"
-					styleClass="ui-priority-primary">
-					<p:confirm header="Confirmação" message="Confirma a exclusão?"
-						icon="pi pi-exclamation-triangle" />
-				</p:commandButton>
-			</p:column>
-
-		</p:dataTable>
-
-		<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-			<p:commandButton value="Sim" type="button"
-				styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
-			<p:commandButton value="Nao" type="button"
-				styleClass="ui-confirmdialog-no" icon="pi pi-times" />
-		</p:confirmDialog>
-
-	</h:form>
+ 
+     <h2><p:outputLabel id="titulo-lista" value="Lista de Pedidos"/> </h2>
+     
+     <h:form id="listagem-cli">
+     <p:dataTable id="pedidosList" var="ped" value="#{pedidoMB.pedidos}"  
+        rows="6" paginator="true"
+        tableStyle="table-layout: auto;"
+        reflow="true" >
+	     <p:column headerText="Id">
+	        <h:outputText value="#{ped.id}" />
+	     </p:column>	 
+	    <p:column headerText="Nome">
+	        <h:outputText value="#{ped.nomeProduto}" />
+	    </p:column>
+ 		<p:column headerText="Data">
+	        <h:outputText value="#{ped.data}"> <f:convertDateTime pattern="dd/MM/yyyy" /></h:outputText>
+	    </p:column>	    
+ 		<p:column headerText="Qtde.">
+	        <h:outputText value="#{ped.quantidade}" />
+	    </p:column>
+	     <p:column headerText="Val.Total">
+	        <h:outputText value="#{ped.valorTotal}"/>
+	        <f:facet name="footer">
+		        Total de Pedidos: R$#{pedidoMB.pedidos.stream().map(pedido->pedido.valorTotal).sum()}
+		    </f:facet>
+	    </p:column>
+	    <p:column headerText="Alt.">
+           <p:commandButton update="formulario" 
+                        value="Alterar" icon="fa-edit"
+                        actionListener="#{pedidoMB.update(ped.id)}" 
+                        ajax="true" styleClass="ui-priority-primary">
+           </p:commandButton>
+		</p:column>
+		<p:column headerText="Exc.">
+           <p:commandButton update="pedidosList formulario" 
+                        value="Excluir" icon="ui-icon-closethick"
+                        actionListener="#{pedidoMB.delete(ped.id)}"
+                        ajax="true" styleClass="ui-priority-primary">
+              <p:confirm header="Confirmação" message="Confirma a exclusão?" icon="pi pi-exclamation-triangle" />
+           </p:commandButton>
+		</p:column>		        
+     </p:dataTable>
+     
+     <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+        <p:commandButton value="Nao" type="button" styleClass="ui-confirmdialog-no" icon="pi pi-times" />
+     </p:confirmDialog>
+     
+    </h:form>
 </h:body>
 </html>
+

@@ -12,14 +12,11 @@ import javax.inject.Named;
 import dao.ClienteDAO;
 import entidades.Cliente;
 import model.ClienteVO;
-import model.PedidoVO;
 
 @Named 
 @SessionScoped
 public class ClienteMB implements Serializable {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	private ClienteVO cliente = new ClienteVO();	
 	private List<ClienteVO> clientes;
@@ -32,17 +29,9 @@ public class ClienteMB implements Serializable {
         // se o "id" do objeto "clienteVO" está NULL significa um "novo cliente"
 		if (this.cliente.getId()==null) {
 			cadastrarNovoCliente();
-		} else
+		} else {
 			atualizarCliente();
-		return "";
-	}
-	
-	public String irPedidos() {
-		 // se o "id" do objeto "clienteVO" está NULL significa um "novo cliente"
-		if (this.cliente.getId()==null) {
-			novoCliente();
-		} else
-			atualizarCliente();
+		}
 		return "";
 	}
 	
@@ -58,13 +47,9 @@ public class ClienteMB implements Serializable {
 	private void cadastrarNovoCliente() {
 		boolean incluiu = dao.incluir(cliente);
 		if (incluiu)
-		   FacesContext.getCurrentInstance().addMessage(null, 
-				new FacesMessage(FacesMessage.SEVERITY_INFO,
-					"Cliente <"+cliente.getNome() + "> "
-					+ " cadastrado com ID="+cliente.getId(), null));
+		   FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Cliente <"+cliente.getNome() + "> " + " cadastrado com ID="+cliente.getId(), null));
 		else
-		   FacesContext.getCurrentInstance().addMessage(null,
-				new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro na Operação!", null));
+		   FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro na Operação!", null));
 		// limpa o "VO" para incluir um novo
 		this.cliente = new ClienteVO();			
 	}
@@ -73,14 +58,9 @@ public class ClienteMB implements Serializable {
 	private void atualizarCliente() {		
 		boolean ok = dao.atualiza(this.cliente);
 		if (ok)
-		   FacesContext.getCurrentInstance().addMessage(null, 
-				new FacesMessage(FacesMessage.SEVERITY_INFO, 
-						"Cliente <" + this.cliente.getNome()
-						+ "> atualizado com sucesso!", null));
+		   FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Cliente <" + this.cliente.getNome()+ "> atualizado com sucesso!", null));
 		else
-		   FacesContext.getCurrentInstance().addMessage(null,
-				new FacesMessage(FacesMessage.SEVERITY_ERROR, 
-						"Erro na Operação!", null));
+		   FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_ERROR,"Erro na Operação!", null));
 		// limpa o "VO" para incluir um novo
 		this.cliente = new ClienteVO();					
 	}
@@ -89,10 +69,7 @@ public class ClienteMB implements Serializable {
 		int idPK = Integer.parseInt(id);	
 		Cliente cli = dao.findById(idPK);
 		dao.delete(idPK);       
-		FacesContext.getCurrentInstance().addMessage(null, 
-				new FacesMessage(FacesMessage.SEVERITY_INFO, 
-						"Cliente <" + cli.getNome()
-						+ "> Excluído com sucesso!", null));
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,	"Cliente <" + cli.getNome()	+ "> Excluído com sucesso!", null));
     }
 	
 	public String update(String id) {
@@ -128,5 +105,5 @@ public class ClienteMB implements Serializable {
 	public void setClientes(List<ClienteVO> clientes) {
 		this.clientes = clientes;
 	}
-	
+ 
 }

@@ -3,17 +3,14 @@ package entidades;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
-import java.util.Random;
 
-import javax.inject.Inject;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Transient;
+
 
 import utilitarios.GeradorID;
 
@@ -21,16 +18,24 @@ import utilitarios.GeradorID;
 @Table(name = "tb_pedido")
 public class Pedido implements Serializable  {
 	  
-	@Id private Integer id;
+	private static final long serialVersionUID = 1L;
+
+	@Id 
+	private Integer id;
+	
+	@Temporal(TemporalType.TIMESTAMP)  // DATE - retorna apenas a data 
+	private Date data;
 	
 	private String nomeProduto;
-	private double preco;
 	private Integer quantidade;
-	private double valorTotal;
+
+	@Column(name = "valor_total", precision=18, scale=2)
+	private BigDecimal valorTotal;
 
 	public Pedido() {
 	  // cria uma chave numérica única (ID)	
 	  this.id =	GeradorID.geraNumeroID(); 
+	  this.data = new Date();
 	}
 
 	// getters e setters
@@ -42,20 +47,20 @@ public class Pedido implements Serializable  {
 		this.id = id;
 	}
 
+	public Date getData() {
+		return data;
+	}
+
+	public void setData(Date data) {
+		this.data = data;
+	}
+
 	public String getNomeProduto() {
 		return nomeProduto;
 	}
 
 	public void setNomeProduto(String nomeProduto) {
 		this.nomeProduto = nomeProduto;
-	}
-	
-	public double getPreco() {
-		return preco;
-	}
-
-	public void setPreco(double preco) {
-		this.preco = preco;
 	}
 
 	public Integer getQuantidade() {
@@ -66,12 +71,13 @@ public class Pedido implements Serializable  {
 		this.quantidade = quantidade;
 	}
 
-	public double getValorTotal() {
+	public BigDecimal getValorTotal() {
 		return valorTotal;
 	}
 
-	public void setValorTotal(double valorTotal) {
+	public void setValorTotal(BigDecimal valorTotal) {
 		this.valorTotal = valorTotal;
 	}
+
 
 }

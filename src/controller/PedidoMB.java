@@ -1,22 +1,18 @@
 package controller;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.faces.convert.BigDecimalConverter;
 import javax.inject.Named;
-
-import com.mysql.fabric.xmlrpc.base.Value;
 
 import dao.PedidoDAO;
 import entidades.Pedido;
 import model.PedidoVO;
-import utilitarios.GeradorID;
+
 
 @Named 
 @SessionScoped
@@ -30,9 +26,11 @@ public class PedidoMB implements Serializable {
 	
 	public PedidoMB() {}
  	
+	
 	public String salvar() {
+		
         // se o "id" do objeto "pedidoVO" está NULL significa um "novo pedido"
-		if (this.pedido.getId()==null) {
+		if (pedido.getId()==null) {
 			cadastrarNovoPedido();
 		} else
 			atualizarPedido();
@@ -48,7 +46,9 @@ public class PedidoMB implements Serializable {
 	}
 	
     // método privado para incluir um novo pedido na base dados.
+	
 	private void cadastrarNovoPedido() {
+		
 		boolean incluiu = dao.incluir(pedido);
 		if (incluiu)
 		   FacesContext.getCurrentInstance().addMessage(null, 
@@ -61,7 +61,7 @@ public class PedidoMB implements Serializable {
 		// limpa o "VO" para incluir um novo
 		this.pedido = new PedidoVO();			
 	}
-
+	
 	// método privado para alterar os dados do cliente na base dados.
 	private void atualizarPedido() {		
 		boolean ok = dao.atualiza(this.pedido);
@@ -91,7 +91,9 @@ public class PedidoMB implements Serializable {
 	public String update(String id) {
 		int idPK = Integer.parseInt(id);		 
 	    Pedido p = dao.findById(idPK);
+	    this.pedido.setId(p.getId());
 	    this.pedido.setNomeProduto(p.getNomeProduto());
+	    this.pedido.setData(p.getData());
 	    this.pedido.setQuantidade(p.getQuantidade());
 	    this.pedido.setValorTotal(p.getValorTotal());
 	    
@@ -113,8 +115,8 @@ public class PedidoMB implements Serializable {
 			PedidoVO vo = new PedidoVO();
 			vo.setId(pedido.getId());
 			vo.setNomeProduto(pedido.getNomeProduto());
+		    vo.setData(pedido.getData());
 		    vo.setQuantidade(pedido.getQuantidade());
-		    vo.setPreco(pedido.getPreco());
 		    vo.setValorTotal(pedido.getValorTotal());
 			
 			this.pedidos.add(vo);	
@@ -125,14 +127,5 @@ public class PedidoMB implements Serializable {
 	public void setPedidos(List<PedidoVO> pedidos) {
 		this.pedidos = pedidos;
 	}
-	
-	private void vt (String id) {
-		int idPd = Integer.parseInt(id);		 
-	    Pedido p = dao.findById(idPd);
-	    double qtd = Double.valueOf(p.getQuantidade());
-	    	    
-	    Double vlTot = p.getPreco() * qtd;
-	    p.setValorTotal(vlTot);
-	}
-	
+ 
 }

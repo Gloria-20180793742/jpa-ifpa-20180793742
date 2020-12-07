@@ -26,7 +26,6 @@ public class ClienteDAO {
 		c.setId(GeradorID.geraNumeroID());
 		c.setNome(vo.getNome());
 		c.setEndereco(vo.getEndereco());
-		c.setValorTotal(vo.getValorTotal());
 		vo.setId(c.getId()); // repassa o ID para o VO
 
 		// trata os objetos de pedidos (formato "vo" para entity)
@@ -35,14 +34,13 @@ public class ClienteDAO {
 		for (PedidoVO voPed : pedidosVO) {
 			Pedido novoPedido = new Pedido();
 			// o "id" é criado em Pedido()
-			//novoPedido.setData(voPed.getData());
+			novoPedido.setData(voPed.getData());
 			novoPedido.setNomeProduto(voPed.getNomeProduto());
 			novoPedido.setQuantidade(voPed.getQuantidade());
 			novoPedido.setValorTotal(voPed.getValorTotal());
 			pedidosEntity.add(novoPedido);
 		}
 		c.setPedidos(pedidosEntity);
-
 		em.getTransaction().begin();
 		em.persist(c);
 		em.getTransaction().commit();
@@ -85,7 +83,6 @@ public class ClienteDAO {
 		for (PedidoVO voPed : pedidosVO) {
 			Pedido novoPedido = new Pedido();
 			// o "id" é criado em Pedido()
-			//novoPedido.setData(voPed.getData());
 			novoPedido.setNomeProduto(voPed.getNomeProduto());
 			novoPedido.setQuantidade(voPed.getQuantidade());
 			novoPedido.setValorTotal(voPed.getValorTotal());

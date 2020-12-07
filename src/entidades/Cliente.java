@@ -1,27 +1,27 @@
 package entidades;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import model.PedidoVO;
 
 @Entity
 @Table(name = "tb_cliente")
 public class Cliente implements Serializable {
-	@Id	
-	private Integer id;
+
+	private static final long serialVersionUID = 1L;
+	@Id	private Integer id;
 	private String nome;
-	private String endereco;
-    private BigDecimal valorTotal;
+ 
+    private String endereco;
 	
 	@OneToMany
+	@JoinColumn(name = "cliente_id")
 	private List<Pedido> pedidos = new ArrayList<Pedido>();
 
 	public Cliente() {}
@@ -54,14 +54,6 @@ public class Cliente implements Serializable {
 
 	public void setEndereco(String endereco) {
 		this.endereco = endereco;
-	}
-	
-	public BigDecimal getValorTotal() {
-		return valorTotal;
-	}
-
-	public void setValorTotal(BigDecimal valorTotal) {
-		this.valorTotal = valorTotal;
 	}
 
 	public List<Pedido> getPedidos() {

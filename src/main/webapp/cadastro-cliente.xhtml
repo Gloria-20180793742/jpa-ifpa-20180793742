@@ -45,7 +45,7 @@
 			 	<p:commandButton id="bt1_pedidos" value="Pedidos"
 			     style="width:200px;display:block"
 			     update="listagem-cli formulario" ajax="true"
-				actionListener="#{pedidoMB.getPedidos}" />
+				action="cadastro-pedidos" />
 					
 			</p:panelGrid>
 
@@ -73,13 +73,14 @@
  		<p:column headerText="Endereço">
 	        <h:outputText value="#{cli.endereco}" />
 	    </p:column>
-	    <p:column headerText="Pedidos">
-           <p:commandButton  
-                        value="Pedido" icon="fa-edit"
-                        action="#{pedidoMB.getPedidos}" 
+	    <p:column headerText="Ped.">
+			<p:commandButton update="formulario" 
+                        value="Pedidos" icon="fa-edit"
+                        actionListener="#{clienteMB.update(cli.id)}"
+                        action="cadastro-pedidos" 
                         ajax="true" styleClass="ui-priority-primary">
            </p:commandButton>
-
+			
 		</p:column>	    
 	    <p:column headerText="Alt.">
            <p:commandButton update="formulario" 

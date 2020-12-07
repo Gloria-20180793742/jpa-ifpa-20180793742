@@ -1,6 +1,5 @@
 package dao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -22,13 +21,11 @@ public class PedidoDAO {
 		// utiliza um objeto de transferência (VO)
 		Pedido p = new Pedido();
 		p.setId(GeradorID.geraNumeroID());
-		//p.setData(vo.getData());
 		p.setNomeProduto(vo.getNomeProduto());
-		p.setPreco(vo.getPreco());
 		p.setQuantidade(vo.getQuantidade());
 		p.setValorTotal(vo.getValorTotal());
-		
 		vo.setId(p.getId()); // repassa o ID para o VO
+		vo.setData(p.getData()); // repassa a data para o VO
 		em.getTransaction().begin();
 		em.persist(p);
 		em.getTransaction().commit();
@@ -63,7 +60,7 @@ public class PedidoDAO {
 		// recupera o objeto persistente
 		Pedido p = this.findById(vo.getId());
 		p.setNomeProduto(vo.getNomeProduto());
-		//p.setData(vo.getData());
+		p.setData(vo.getData());
 		p.setQuantidade(vo.getQuantidade());
 		p.setValorTotal(vo.getValorTotal());
 

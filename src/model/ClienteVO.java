@@ -1,17 +1,15 @@
 package model;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import entidades.Pedido;
-
 public class ClienteVO implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 	private Integer id;
 	private String nome;
 	private String endereco;
-	private BigDecimal valorTotal;
 	private List<PedidoVO> pedidos = new ArrayList<PedidoVO>();
 	 
 	public ClienteVO() {}
@@ -41,17 +39,9 @@ public class ClienteVO implements Serializable {
 	public List<PedidoVO> getPedidos() {
 		return pedidos;
 	}
-	
-	public BigDecimal getValorTotal() {
-		return valorTotal;
-	}
 
-	public void setValorTotal(BigDecimal valorTotal) {
-		this.valorTotal = valorTotal;
-	}
-
-	public void setPedidos(List<PedidoVO> list) {
-		this.pedidos = list;
+	public void setPedidos(List<PedidoVO> pedidos) {
+		this.pedidos = pedidos;
 	}
 	 
 	 
