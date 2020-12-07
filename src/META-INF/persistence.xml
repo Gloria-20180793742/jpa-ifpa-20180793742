@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.2"
+	xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence 
+	                    http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
+	<persistence-unit name="appPU" transaction-type="RESOURCE_LOCAL">
+		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>		
+		<class>entidades.Cliente</class>
+		<class>entidades.Pedido</class>
+		
+		<properties>			
+	        	<!--  Config Hibernate -->
+	        	
+				<property name="hibernate.connection.url" value="jdbc:postgresql://ec2-52-22-238-188.compute-1.amazonaws.com:5432/ddsrp42d2kv6f2?ssl=true&amp;sslfactory=org.postgresql.ssl.NonValidatingFactory"/>
+	        	<property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
+	        	<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL9Dialect"/>
+	        	<property name="hibernate.connection.username" value="trilmjqikmcdyw"/>
+	        	<property name="hibernate.connection.password" value="ac38f75078cf9f0e20734a3c52c679fef6e7e05ae79c1d30fec06c40eec553ec"/>
+	        	
+	        	<property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/> 
+	    	 	    	 
+		</properties>
+	</persistence-unit>
+</persistence>
